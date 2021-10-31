@@ -54,6 +54,8 @@ export default defineComponent({
     })
     onBeforeUnmount(() => {
       bs?.destroy()
+      observer.disconnect()
+      window.removeEventListener('resize', refresh)
     })
     return () => {
       return (
