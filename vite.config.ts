@@ -13,5 +13,18 @@ export default defineConfig({
       customComponentResolvers: [AntDesignVueResolver()]
     })
   ],
-  base: ''
+  base: '',
+  resolve: {
+    alias: {
+      '@': '/src',
+      '@style': '/src/assets/style'
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true
+      }
+    }
+  }
 })

@@ -10,8 +10,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     '@vue/prettier',
     '@vue/prettier/@typescript-eslint',
-    "@vue/typescript/recommended",
-    
+    '@vue/typescript/recommended'
   ],
   'parserOptions': {
     'ecmaVersion': 13,
@@ -35,9 +34,11 @@ module.exports = {
       'warn',
       'single'
     ],
-    'semi': [
-      'warn',
-      'never'
-    ]
+    'semi': ['error'],
+    '@typescript-eslint/no-use-before-define': 'off',
+    'no-prototype-builtins': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/camelcase': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off'
   }
-}
+};

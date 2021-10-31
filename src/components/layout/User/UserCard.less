@@ -1,0 +1,80 @@
+@import '@style/antd.lin.less';
+
+// ----- user card ----
+.userCard {
+  width: 326px;
+  background: transparent;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border: none;
+  overflow: hidden;
+  &__corner {
+    position: absolute;
+    right: 18px;
+    top: -9px;
+    width: 27px;
+    height: 10px;
+  }
+  &__operate {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-left: 35px;
+    height: 122px;
+    color: #596c8e;
+    font-size: 14px;
+    background: white;
+    margin-top: -10px;
+    list-style: none;
+    &-item {
+      cursor: pointer;
+      &:nth-child(1) {
+        margin-top: 20px;
+      }
+
+      &:nth-child(2) {
+        margin-bottom: 20px;
+      }
+      .lin-icon {
+        margin-right: 10px;
+      }
+      &:hover {
+        color: @primary-color;
+      }
+    }
+    &-userCenter {
+
+    }
+  }
+}
+
+.userInfo {
+  background-image: url('../../../assets/image/user/user-bg.png');
+  background-size: cover;
+  padding: 35px 20px 25px 30px;
+  display: flex;
+  position: relative;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  margin-top: 10px;
+  &__avatar {
+    &-img {
+      width: 80px !important;
+      height: 80px !important;
+    }
+  }
+  &__detail {
+    margin-left: 20px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    &-username {
+      margin-bottom: 10px;
+      font-size: 16px;
+      height: 32px;
+      line-height: 32px;
+      cursor: pointer;
+    }
+  }
+}
