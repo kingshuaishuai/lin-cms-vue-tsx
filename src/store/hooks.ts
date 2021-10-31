@@ -53,6 +53,12 @@ export const useStageInfo = () => {
   return stageInfo
 }
 
+/**
+ * 递归获取到当前stage链
+ * @param stages
+ * @param name
+ * @returns
+ */
 function getStagePathByName(
   stages: RouterRecordDesc[],
   name: string | symbol,
@@ -72,5 +78,3 @@ function getStagePathByName(
   }
   return []
 }
-
-// []
