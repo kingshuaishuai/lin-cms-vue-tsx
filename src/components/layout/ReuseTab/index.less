@@ -1,0 +1,65 @@
+@import '@style/antd.lin.less';
+@import '@style/mixins';
+
+.reuseTab {
+  height: @reuse-tab-height;
+  display: flex;
+  width: fit-content;
+  &__item {
+    .flex-centering();
+    flex-shrink: 0;
+    min-width: 126px;
+    padding: 0 14px;
+    background-color: #fff;
+    font-size: 16px;
+    position: relative;
+    transition-duration: .3s;
+    &:not(:last-child) {
+      margin-right: 1px;
+    }
+    &-icon {
+      font-size: 18px;
+    }
+    &-title {
+      padding: 0 5px;
+      color: @gray-text-color;
+    }
+    &-close {
+      display: none !important;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 14px;
+      height: 14px;
+      border-radius: 0 0 0 14px;
+      background-color: rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+    &:hover {
+      background-color: @primary-color;
+      color: #fff;
+      .reuseTab__item-title {
+        color: #fff;
+      }
+      .reuseTab__item-close {
+        display: flex !important;
+      }
+    }
+  }
+  &__item--active {
+    &:hover {
+      color: #fff
+    }
+    background-color: @primary-color;
+    color: #fff;
+    .reuseTab__item-title {
+      color: #fff;
+    }
+    .reuseTab__item-close {
+      display: flex !important;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": true,
+  "files.autoSave": "onWindowChange",
+  "editor.codeActionsOnSave": {
+      // "source.fixAll.eslint": true
+  }
+}

@@ -1,0 +1,50 @@
+@import '@style/antd.lin.less';
+@import '@style/mixins.less';
+
+.logo-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: sticky;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  .flex-centering();
+}
+.logo {
+  .flex-centering();
+  width: @sidebar-width;
+  height: @sidebar-logo-height;
+  overflow: hidden;
+  font-size: 30px;
+  color: #fff;
+  background-color: #122150;
+  transition: all 0.2s;
+
+  img {
+    width: 120px;
+  }
+}
+
+.mobile-logo {
+  .flex-centering();
+  width: @sidebar-collapsed-width;
+  height: @sidebar-logo-height;
+  background-color: #122150;
+  transition: all 0.2s;
+  overflow-y: auto;
+
+  img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.app-sidebar {
+  &__main {
+    margin-bottom: 50px;
+    overflow-y: auto;
+    &__menu {
+      border-right: none;
+    }
+  }
+}

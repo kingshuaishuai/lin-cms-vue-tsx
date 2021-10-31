@@ -4,7 +4,6 @@ import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import './App.less'
 import { RouterView } from 'vue-router'
 
-
 export default defineComponent({
   name: 'App',
   mounted() {
@@ -13,16 +12,14 @@ export default defineComponent({
   setup() {
     const locale = ref(zhCN)
     return {
-      locale
+      locale,
     }
   },
   render() {
     return (
       <ConfigProvider locale={this.locale}>
-        <div id="app">
-          <RouterView></RouterView>
-        </div>
+        <RouterView></RouterView>
       </ConfigProvider>
     )
-  }
+  },
 })
