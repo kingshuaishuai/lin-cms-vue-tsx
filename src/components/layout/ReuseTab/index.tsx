@@ -1,7 +1,12 @@
 import Icon from '@/components/base/Icon'
 import { IconName } from '@/components/base/Icon/type'
-import { defineComponent, onBeforeMount, ref } from 'vue'
-import { onBeforeRouteUpdate, RouterLink, useRouter } from 'vue-router'
+import { defineComponent, onBeforeMount, ref, watch } from 'vue'
+import {
+  onBeforeRouteUpdate,
+  RouterLink,
+  useRoute,
+  useRouter,
+} from 'vue-router'
 import { CloseOutlined } from '@ant-design/icons-vue'
 import './index.less'
 import BScroll from '@/components/base/BScroll'
@@ -42,15 +47,25 @@ const useRouteHistories = () => {
       routePath: string
     }>
   >(localCache)
-  onBeforeRouteUpdate((to) => {
-    const exist = histories.value.find((item) => item.path === to.path)
-    if (exist) return
-    histories.value.unshift({
-      stageId: to.name as string | symbol,
-      path: to.path,
-      routePath: to.matched[to.matched.length - 1].path,
-    })
-  })
+  const route = useRoute()
+  watch(
+    route,
+    (to) => {
+      const exist = histories.value.find((item) => item.path === to.path)
+      if (exist) return
+      histories.value = [
+        {
+          stageId: to.name as string | symbol,
+          path: to.path,
+          routePath: to.matched[to.matched.length - 1].path,
+        },
+        ...histories.value,
+      ]
+    },
+    {
+      immediate: true,
+    },
+  )
 
   onBeforeMount(() => {
     window.addEventListener('beforeunload', () => {
