@@ -1,128 +1,96 @@
 import Icon from '@/components/base/Icon'
 import { IconName } from '@/components/base/Icon/type'
-import { defineComponent, onBeforeMount, ref, watch } from 'vue'
-import {
-  onBeforeRouteUpdate,
-  RouterLink,
-  useRoute,
-  useRouter,
-} from 'vue-router'
+import { defineComponent } from 'vue'
+import { RouterLink } from 'vue-router'
 import { CloseOutlined } from '@ant-design/icons-vue'
 import './index.less'
 import BScroll from '@/components/base/BScroll'
-import { usePathToStageMap, useStageList } from '@/store/hooks'
-
-interface ReuseTabItem {
-  stageId: string | symbol
-  path: string
-  routePath: string
-}
-
-const getCacheHistories = (): ReuseTabItem[] => {
-  const storiesString = localStorage.getItem('history')
-  const pathToStageMap = usePathToStageMap()
-  if (!storiesString) return []
-  try {
-    let localHistories = JSON.parse(storiesString)
-    if (Array.isArray(localHistories)) {
-      return localHistories.filter((item) => {
-        const stage = pathToStageMap.value[item.routePath]
-        if (stage) {
-          item.stageId = stage.name
-          return true
-        }
-        return false
-      })
-    }
-  } catch (err) {}
-  return []
-}
-
-const useRouteHistories = () => {
-  const localCache = getCacheHistories()
-  const histories = ref<
-    Array<{
-      stageId: string | symbol
-      path: string
-      routePath: string
-    }>
-  >(localCache)
-  const route = useRoute()
-  watch(
-    route,
-    (to) => {
-      const exist = histories.value.find((item) => item.path === to.path)
-      if (exist) return
-      histories.value = [
-        {
-          stageId: to.name as string | symbol,
-          path: to.path,
-          routePath: to.matched[to.matched.length - 1].path,
-        },
-        ...histories.value,
-      ]
-    },
-    {
-      immediate: true,
-    },
-  )
-
-  onBeforeMount(() => {
-    window.addEventListener('beforeunload', () => {
-      localStorage.setItem('history', JSON.stringify(histories.value))
-    })
-  })
-
-  return histories
-}
+import { useMenuContext, useRouteHistories } from './hooks'
+import { useStageList } from '@/store/hooks'
 
 export default defineComponent({
   name: 'ReuseTab',
   setup() {
-    const histories = useRouteHistories()
+    const { histories, handleCloseHistoryTab } = useRouteHistories()
     const stageList = useStageList()
-    const router = useRouter()
+
+    const {
+      container,
+      menuInfo,
+      onContextmenuTag,
+      closeAll,
+      closeLeft,
+      closeRight,
+      closeOthers,
+    } = useMenuContext(histories)
+
     return () => {
       return (
-        <BScroll scrollX>
-          <div class="reuseTab">
-            {histories.value.map((item, index) => (
-              <RouterLink
-                exactActiveClass="reuseTab__item--active"
-                class="reuseTab__item"
-                to={item.path}
-                key={item.stageId}
-              >
-                <Icon
-                  class="reuseTab__item-icon"
-                  name={stageList.value[item.stageId].icon as IconName}
-                />
-                <span class="reuseTab__item-title">
-                  {stageList.value[item.stageId].title}
-                </span>
-                <CloseOutlined
-                  class="reuseTab__item-close"
-                  onClick={(event) => {
-                    event.preventDefault()
-                    let nextShowIndex: number
-
-                    if (histories.value.length > 1) {
-                      nextShowIndex = index === 0 ? index + 1 : index - 1
-                      const nextStage = histories.value[nextShowIndex]
-                      histories.value.splice(index, 1)
-                      router.push(nextStage.path)
-                    } else {
-                      if (item.path !== '/about') {
-                        histories.value.splice(index, 1)
-                      }
-                      router.push('/about')
-                    }
+        <div ref={container} class="reuseTab-container">
+          <BScroll scrollX click={false}>
+            <div class="reuseTab">
+              {histories.value.map((item, index) => (
+                <RouterLink
+                  exactActiveClass="reuseTab__item--active"
+                  class="reuseTab__item"
+                  to={item.path}
+                  key={item.stageId}
+                  {...{
+                    onContextmenu: (event: MouseEvent) =>
+                      onContextmenuTag(event, index),
                   }}
-                />
-              </RouterLink>
-            ))}
-          </div>
-        </BScroll>
+                >
+                  <Icon
+                    class="reuseTab__item-icon"
+                    name={stageList.value[item.stageId].icon as IconName}
+                  />
+                  <span class="reuseTab__item-title">
+                    {stageList.value[item.stageId].title}
+                  </span>
+                  <CloseOutlined
+                    class="reuseTab__item-close"
+                    onClick={(event) =>
+                      handleCloseHistoryTab(event, item, index)
+                    }
+                  />
+                </RouterLink>
+              ))}
+            </div>
+          </BScroll>
+          <ul
+            v-show={menuInfo.visible}
+            style={{
+              top: `${menuInfo.top}px`,
+              left: `${menuInfo.left}px`,
+            }}
+            class="reuseTab__contextmenu"
+          >
+            <li onClick={closeAll} class="reuseTab__contextmenu-item">
+              关闭所有
+            </li>
+            <li
+              onClick={closeOthers}
+              v-show={menuInfo.hasOthers}
+              class="reuseTab__contextmenu-item"
+            >
+              关闭其他
+            </li>
+            <li
+              onClick={closeLeft}
+              v-show={menuInfo.hasLeft}
+              class="reuseTab__contextmenu-item"
+            >
+              关闭左侧
+            </li>
+            <li
+              onClick={closeRight}
+              v-show={menuInfo.hasRight}
+              class="reuseTab__contextmenu-item"
+            >
+              关闭右侧
+            </li>
+          </ul>
+        </div>
       )
     }
   },

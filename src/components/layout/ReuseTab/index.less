@@ -1,6 +1,30 @@
 @import '@style/antd.lin.less';
 @import '@style/mixins';
 
+.reuseTab-container {
+  position: relative;
+}
+.reuseTab__contextmenu {
+  position: absolute;
+  list-style-type: none;
+  margin: 0;
+  padding: 5px 0;
+  border-radius: 4px;
+  color: #596c8e;
+  background: #fff;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+  z-index: 300;
+  &-item {
+    margin: 0;
+    padding: 10px 20px;
+    cursor: pointer;
+    &:hover {
+      background: #ebeff8;
+      color: #6182c9;
+    }
+  }
+}
+
 .reuseTab {
   height: @reuse-tab-height;
   display: flex;

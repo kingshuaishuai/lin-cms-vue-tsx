@@ -1,6 +1,6 @@
 import { Dropdown } from 'ant-design-vue'
 import Avatar from 'ant-design-vue/lib/avatar/Avatar'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import defaultAvatar from '@/assets/image/user/user.png'
 import UserCard from './UserCard'
 import './index.less'
@@ -8,10 +8,15 @@ import './index.less'
 export default defineComponent({
   name: 'User',
   setup() {
+    const visible = ref(false)
     return () => {
       return (
         <div class="user">
-          <Dropdown overlay={() => <UserCard />} placement="bottomLeft">
+          <Dropdown
+            v-model={[visible.value, 'visible']}
+            overlay={() => <UserCard />}
+            placement="bottomLeft"
+          >
             <div class="user__avatar">
               <Avatar
                 size="large"
