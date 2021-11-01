@@ -129,7 +129,6 @@ export const useMenuContext = (histories: Ref<ReuseTabItem[]>) => {
     menuInfo.visible = true
     menuInfo.hasLeft = hasLeft(index)
     menuInfo.hasRight = hasRight(index)
-    console.log('hasothers', hasOthers(), histories.value.length)
     menuInfo.hasOthers = hasOthers()
     menuInfo.currentIndex = index
   }
