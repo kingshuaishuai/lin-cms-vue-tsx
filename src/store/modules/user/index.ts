@@ -19,6 +19,10 @@ const userModule: Module<UserState, RootState> = {
   mutations: {
     [MUTATION_TYPES.SET_USER](state, payload) {
       state.user = payload
+      state.permissions = (payload.permissions as User['permissions'])
+        .map((item) => Object.values(item))
+        .flat(2)
+        .map((item) => item.permission)
     },
     [MUTATION_TYPES.SET_LOGGED_IN](state) {
       state.loggedIn = true
@@ -26,6 +30,7 @@ const userModule: Module<UserState, RootState> = {
     [MUTATION_TYPES.REMOVE_LOGGED_IN](state) {
       state.user = null
       state.loggedIn = false
+      state.permissions = []
     },
   },
   actions: {

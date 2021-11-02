@@ -1,6 +1,6 @@
 import Avatar from 'ant-design-vue/lib/avatar/Avatar'
 import { defineComponent } from 'vue'
-import defaultAvatarUrl from '@/assets/image/user/user.png'
+import defaultAvatar from '@/assets/image/user/user.png'
 import corner from '@/assets/image/user/corner.png'
 import './UserCard.less'
 import Icon from '@/components/base/Icon'
@@ -13,9 +13,11 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const store = useStore()
+    const user = store.state.user.user
     const logout = () => {
       store.dispatch(ACTION_TYPES.LOGOUT)
       window.location.reload()
+      // router.push('/login')
     }
 
     return () => {
@@ -26,12 +28,15 @@ export default defineComponent({
             <div class="userInfo__avatar">
               <Avatar
                 class="userInfo__avatar-img"
-                src={defaultAvatarUrl}
+                src={user?.avatar || defaultAvatar}
                 shape="circle"
+                alt={user?.nickname}
               />
             </div>
             <div class="userInfo__detail">
-              <div class="userInfo__detail-username">Root</div>
+              <div class="userInfo__detail-username">
+                {user?.nickname || '佚名'}
+              </div>
             </div>
           </div>
           <ul class="userCard__operate">

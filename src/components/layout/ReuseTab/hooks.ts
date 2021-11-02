@@ -1,8 +1,16 @@
 import { nextTick, onBeforeMount, reactive, Ref, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import './index.less'
-import { usePathToStageMap } from '@/store/hooks'
+import { useNameToStageMap, usePathToStageMap } from '@/store/hooks'
 import Config from '@/config'
+
+const histories = ref<
+  Array<{
+    stageId: string | symbol
+    path: string
+    routePath: string
+  }>
+>([])
 
 // 默认的路由地址
 const DEFAULT_ROUTE = Config.defaultRoute || '/about'
@@ -35,23 +43,20 @@ const getCacheHistories = (): ReuseTabItem[] => {
 
 export const useRouteHistories = () => {
   const localCache = getCacheHistories()
-  const histories = ref<
-    Array<{
-      stageId: string | symbol
-      path: string
-      routePath: string
-    }>
-  >(localCache)
+  histories.value = localCache
   const route = useRoute()
+  const nameToStageMap = useNameToStageMap()
+  const pathToStageMap = usePathToStageMap()
   watch(
     route,
     (to) => {
-      if (to.path === '/login') {
-        histories.value = []
-        return
-      }
       const exist = histories.value.find((item) => item.path === to.path)
       if (exist) return
+      if (!to.name) return
+      const findResult =
+        nameToStageMap.value[to.name] || pathToStageMap.value[to.path]
+      if (!findResult) return
+
       histories.value = [
         {
           stageId: to.name as string | symbol,
@@ -173,7 +178,9 @@ export const useMenuContext = (histories: Ref<ReuseTabItem[]>) => {
     router.push('/')
   }
   const closeOthers = () => {
-    histories.value = [histories.value[menuInfo.currentIndex]]
+    const currentTab = histories.value[menuInfo.currentIndex]
+    histories.value = [currentTab]
+    router.push(currentTab.path)
   }
 
   const closeMenu = () => {
@@ -203,4 +210,24 @@ export const useMenuContext = (histories: Ref<ReuseTabItem[]>) => {
     closeOthers,
     closeAll,
   }
+}
+
+export const useClearHistories = () => {
+  const route = useRoute()
+  const router = useRouter()
+  const clearHistories = () => {
+    if (route.path === DEFAULT_ROUTE) {
+      histories.value = [
+        {
+          stageId: route.name!,
+          path: route.path,
+          routePath: route.matched[route.matched.length - 1].path,
+        },
+      ]
+    } else {
+      histories.value = []
+    }
+    router.push('/')
+  }
+  return clearHistories
 }

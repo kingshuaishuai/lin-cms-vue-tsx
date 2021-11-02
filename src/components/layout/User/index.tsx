@@ -4,11 +4,13 @@ import { defineComponent, ref } from 'vue'
 import defaultAvatar from '@/assets/image/user/user.png'
 import UserCard from './UserCard'
 import './index.less'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'User',
   setup() {
     const visible = ref(false)
+    const store = useStore()
     return () => {
       return (
         <div class="user">
@@ -24,9 +26,7 @@ export default defineComponent({
                 style={{
                   cursor: 'pointer',
                 }}
-                src={
-                  'http://face.api.talelin.com/assets/2021/10/29/a72e8d7305154c6581ae541046dccdab.jpg'
-                }
+                src={store.state.user.user?.avatar || defaultAvatar}
               ></Avatar>
             </div>
           </Dropdown>

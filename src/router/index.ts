@@ -1,11 +1,10 @@
 import { message } from 'ant-design-vue'
 import Config from '@/config'
 import { store } from '@/store'
-import { usePermissions } from '@/store/hooks'
 import { hasPermission } from '@/utils/utils'
 import {
   createRouter,
-  createWebHistory,
+  // createWebHistory,
   createWebHashHistory,
 } from 'vue-router'
 import routes from './route'
@@ -13,8 +12,8 @@ import routes from './route'
 const base = import.meta.env.BASE_URL
 
 const router = createRouter({
-  history: createWebHistory(base),
-  // history: createWebHashHistory(base),
+  // history: createWebHistory(base),
+  history: createWebHashHistory(base),
   routes,
   scrollBehavior: () => ({ top: 0, behavior: 'smooth' }),
 })
@@ -42,8 +41,6 @@ let isLoginRequired = (routerName?: string | symbol | null): boolean => {
   return isLoginRequired(routerName)
 }
 
-const permissions = usePermissions()
-
 router.beforeEach((to, from, next) => {
   if (isLoginRequired(to.name) && !store.state.user.loggedIn) {
     next({ path: '/login' })
@@ -54,10 +51,11 @@ router.beforeEach((to, from, next) => {
     return
   }
 
+  const permissions = store.state.user.permissions
   if (
     store.state.user.user &&
     to.path !== '/about' &&
-    !hasPermission(permissions.value, to.meta, store.state.user.user)
+    !hasPermission(permissions, to.meta, store.state.user.user)
   ) {
     message.error('您无此页面的权限哟~')
     next({ path: '/about' })
@@ -67,6 +65,10 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title as string
   }
+
+  // if (to.path === '/login') {
+  //   localStorage.clear()
+  // }
   next()
 })
 

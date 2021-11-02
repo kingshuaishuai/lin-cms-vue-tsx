@@ -119,11 +119,7 @@ function useSidebarListAndSelectedKeys() {
   watch(
     route,
     (to) => {
-      if (to.path === '/login') {
-        selectedKeys.value = []
-      } else {
-        setSelectedKeysByPath(to)
-      }
+      setSelectedKeysByPath(to)
     },
     {
       immediate: true,

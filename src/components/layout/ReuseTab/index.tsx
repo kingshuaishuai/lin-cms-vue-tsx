@@ -6,12 +6,12 @@ import { CloseOutlined } from '@ant-design/icons-vue'
 import './index.less'
 import BScroll from '@/components/base/BScroll'
 import { useMenuContext, useRouteHistories } from './hooks'
-import { useSidebarList, useStageList } from '@/store/hooks'
+import { useNameToStageMap } from '@/store/hooks'
 
 export default defineComponent({
   name: 'ReuseTab',
   setup() {
-    const stageList = useStageList()
+    const stageList = useNameToStageMap()
     const { histories, handleCloseHistoryTab } = useRouteHistories()
 
     const {
@@ -30,6 +30,7 @@ export default defineComponent({
           <BScroll scrollX click={false}>
             <div class="reuseTab">
               {histories.value.map((item, index) => {
+                if (!stageList.value[item.stageId]) return null
                 return (
                   <RouterLink
                     exactActiveClass="reuseTab__item--active"

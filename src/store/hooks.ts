@@ -25,7 +25,7 @@ export const useSidebarList = () => {
   return sidebarList
 }
 
-export const useStageList = () => {
+export const useNameToStageMap = () => {
   return nameToStageMap
 }
 
@@ -75,14 +75,4 @@ function getStagePathByName(
     }
   }
   return []
-}
-
-export function usePermissions() {
-  return computed(() => {
-    if (!store.state.user.user) return []
-    return store.state.user.user.permissions
-      .map((item) => Object.values(item))
-      .flat(2)
-      .map((item) => item.permission)
-  })
 }

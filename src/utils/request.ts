@@ -72,7 +72,6 @@ export const createAxiosInstance = (config: AxiosRequestConfig) => {
 
   instance.interceptors.response.use(
     async (res) => {
-      console.log('res', res)
       if (res.status.toString().charAt(0) === '2') return res
 
       const { code, message } = res.data
@@ -126,13 +125,12 @@ export const createAxiosInstance = (config: AxiosRequestConfig) => {
           tipMessage = message[0]
         }
         AntMessage.error(tipMessage)
+        reject(res)
       })
     },
     (error) => {
-      console.log('error:', error.response)
       if (!error.response) {
         AntMessage.error('请检查 API 是否异常')
-        console.log('error', error)
       }
       // 判断请求超时
       if (
