@@ -2,8 +2,10 @@ import { nextTick, onBeforeMount, reactive, Ref, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import './index.less'
 import { usePathToStageMap } from '@/store/hooks'
+import Config from '@/config'
 
-const DEFAULT_ROUTE = '/about'
+// 默认的路由地址
+const DEFAULT_ROUTE = Config.defaultRoute || '/about'
 
 interface ReuseTabItem {
   stageId: string | symbol
@@ -44,6 +46,10 @@ export const useRouteHistories = () => {
   watch(
     route,
     (to) => {
+      if (to.path === '/login') {
+        histories.value = []
+        return
+      }
       const exist = histories.value.find((item) => item.path === to.path)
       if (exist) return
       histories.value = [

@@ -54,6 +54,9 @@ export function deepReduceName(target: RouterRecordDesc | RouterRecordDesc[]) {
     target.name = target.name.trim() || getRandomStr()
     target.name = Symbol(target.name)
   }
+  // if (!target.name.trim()) {
+  //   target.name = target.name.trim() || getRandomStr()
+  // }
 
   if (target.children?.length) {
     deepReduceName(target.children)
@@ -71,9 +74,12 @@ export const getRandomStr = (n = 6) => {
 
 export const hasPermission = (
   permissions: Permission[],
-  route: RouterRecordDesc,
-  user: User,
+  route: RouterRecordDesc | { permission?: string[] },
+  user: User | null,
 ) => {
+  if (!user) {
+    return false
+  }
   if (user.admin) {
     return true
   }

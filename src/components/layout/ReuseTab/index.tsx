@@ -6,13 +6,13 @@ import { CloseOutlined } from '@ant-design/icons-vue'
 import './index.less'
 import BScroll from '@/components/base/BScroll'
 import { useMenuContext, useRouteHistories } from './hooks'
-import { useStageList } from '@/store/hooks'
+import { useSidebarList, useStageList } from '@/store/hooks'
 
 export default defineComponent({
   name: 'ReuseTab',
   setup() {
-    const { histories, handleCloseHistoryTab } = useRouteHistories()
     const stageList = useStageList()
+    const { histories, handleCloseHistoryTab } = useRouteHistories()
 
     const {
       container,
@@ -29,32 +29,34 @@ export default defineComponent({
         <div ref={container} class="reuseTab-container">
           <BScroll scrollX click={false}>
             <div class="reuseTab">
-              {histories.value.map((item, index) => (
-                <RouterLink
-                  exactActiveClass="reuseTab__item--active"
-                  class="reuseTab__item"
-                  to={item.path}
-                  key={item.stageId}
-                  {...{
-                    onContextmenu: (event: MouseEvent) =>
-                      onContextmenuTag(event, index),
-                  }}
-                >
-                  <Icon
-                    class="reuseTab__item-icon"
-                    name={stageList.value[item.stageId].icon as IconName}
-                  />
-                  <span class="reuseTab__item-title">
-                    {stageList.value[item.stageId].title}
-                  </span>
-                  <CloseOutlined
-                    class="reuseTab__item-close"
-                    onClick={(event) =>
-                      handleCloseHistoryTab(event, item, index)
-                    }
-                  />
-                </RouterLink>
-              ))}
+              {histories.value.map((item, index) => {
+                return (
+                  <RouterLink
+                    exactActiveClass="reuseTab__item--active"
+                    class="reuseTab__item"
+                    to={item.path}
+                    key={item.stageId}
+                    {...{
+                      onContextmenu: (event: MouseEvent) =>
+                        onContextmenuTag(event, index),
+                    }}
+                  >
+                    <Icon
+                      class="reuseTab__item-icon"
+                      name={stageList.value[item.stageId].icon as IconName}
+                    />
+                    <span class="reuseTab__item-title">
+                      {stageList.value[item.stageId].title}
+                    </span>
+                    <CloseOutlined
+                      class="reuseTab__item-close"
+                      onClick={(event) =>
+                        handleCloseHistoryTab(event, item, index)
+                      }
+                    />
+                  </RouterLink>
+                )
+              })}
             </div>
           </BScroll>
           <ul

@@ -2,7 +2,7 @@ import { MenuItem } from '@/components/layout/Sidebar/types'
 import { RouterRecordDesc } from '@/utils/types'
 import { computed } from '@vue/reactivity'
 import { useRoute } from 'vue-router'
-import { useStore } from '.'
+import { store } from '.'
 import {
   deepGetSidebar,
   getPermissionStageConfig,
@@ -10,11 +10,10 @@ import {
   nameToStageMap,
 } from './modules/router/utils'
 import { User } from './type'
+import stageConfig from '@/config/stage'
 
 export const useSidebarList = () => {
-  const store = useStore()
   const sidebarList = computed(() => {
-    const { stageConfig } = store.state.router
     const { permissions, user } = store.state.user
     const permissionState = getPermissionStageConfig(
       stageConfig,
@@ -40,13 +39,12 @@ const stageInfoCache: {
 
 export const useStageInfo = () => {
   const route = useRoute()
-  const store = useStore()
   const stageInfo = computed(() => {
     const name = route.name!
     if (stageInfoCache[name]) {
       return stageInfoCache[name]
     }
-    const result = getStagePathByName(store.state.router.stageConfig, name)
+    const result = getStagePathByName(stageConfig, name)
     stageInfoCache[name] = result
     return result
   })
@@ -77,4 +75,14 @@ function getStagePathByName(
     }
   }
   return []
+}
+
+export function usePermissions() {
+  return computed(() => {
+    if (!store.state.user.user) return []
+    return store.state.user.user.permissions
+      .map((item) => Object.values(item))
+      .flat(2)
+      .map((item) => item.permission)
+  })
 }

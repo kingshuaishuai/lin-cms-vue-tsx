@@ -13,7 +13,13 @@ export interface User {
   avatar: string | null
   email: string | null
   nickname: string
-  permission: Permission[]
+  username: string
+  permissions: Array<{
+    [key: string]: Array<{
+      permission: string
+      module: string
+    }>
+  }>
 }
 
 export interface RootState {

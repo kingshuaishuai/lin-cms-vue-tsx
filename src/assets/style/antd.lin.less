@@ -77,3 +77,19 @@
 
 // ----- breadcrumb -------
 @breadcrumb-last-item-color: @primary-color;
+
+.ant-spin-nested-loading {
+  .ant-spin-blur {
+    opacity: 1 !important;
+    &::after {
+      background-color: transparent !important;
+    }
+  }
+}
+.@{spin-prefix-cls} {
+  &-container {
+    &::after {
+      background-color: transparent !important;
+    }
+  }
+}

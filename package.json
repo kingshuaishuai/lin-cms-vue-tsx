@@ -11,6 +11,7 @@
     "@better-scroll/core": "^2.4.2",
     "@better-scroll/mouse-wheel": "^2.4.2",
     "ant-design-vue": "^2.2.8",
+    "axios": "^0.24.0",
     "global": "^4.4.0",
     "less": "^4.1.2",
     "lodash": "^4.17.21",

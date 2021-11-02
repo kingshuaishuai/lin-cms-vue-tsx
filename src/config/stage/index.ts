@@ -2,11 +2,11 @@ import { RouterRecordDesc, ROUTER_TYPE } from '@/utils/types'
 import { deepReduceName } from '@/utils/utils'
 import { adminRouter } from './admin'
 
-const homeRoutersInfo: RouterRecordDesc[] = [
+const stageConfig: RouterRecordDesc[] = [
   {
     title: '林间有风',
     type: ROUTER_TYPE.VIEW,
-    name: Symbol('about'),
+    name: 'about',
     route: '/about',
     component: () => import('@/view/About'),
     inNav: true,
@@ -16,7 +16,7 @@ const homeRoutersInfo: RouterRecordDesc[] = [
   {
     title: '日志管理',
     type: ROUTER_TYPE.VIEW,
-    name: Symbol('log'),
+    name: 'log',
     route: '/log',
     component: () => import('@/view/Log'),
     inNav: true,
@@ -27,7 +27,7 @@ const homeRoutersInfo: RouterRecordDesc[] = [
   {
     title: '个人中心',
     type: ROUTER_TYPE.VIEW,
-    name: Symbol('center'),
+    name: 'center',
     route: '/center',
     component: () => import('@/view/Center'),
     inNav: false,
@@ -36,7 +36,7 @@ const homeRoutersInfo: RouterRecordDesc[] = [
   {
     title: '404',
     type: ROUTER_TYPE.VIEW,
-    name: Symbol('404'),
+    name: '404',
     route: '/404',
     component: () => import('@/view/ErrorPage/404'),
     inNav: false,
@@ -45,6 +45,6 @@ const homeRoutersInfo: RouterRecordDesc[] = [
   adminRouter,
 ]
 
-deepReduceName(homeRoutersInfo)
+deepReduceName(stageConfig)
 
-export default homeRoutersInfo
+export default stageConfig

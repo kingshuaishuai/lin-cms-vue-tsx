@@ -4,10 +4,20 @@ import defaultAvatarUrl from '@/assets/image/user/user.png'
 import corner from '@/assets/image/user/corner.png'
 import './UserCard.less'
 import Icon from '@/components/base/Icon'
+import { useRouter } from 'vue-router'
+import { useStore } from '@/store'
+import { ACTION_TYPES } from '@/store/actionTypes'
 
 export default defineComponent({
   name: 'UserCard',
   setup() {
+    const router = useRouter()
+    const store = useStore()
+    const logout = () => {
+      store.dispatch(ACTION_TYPES.LOGOUT)
+      window.location.reload()
+    }
+
     return () => {
       return (
         <div class="userCard">
@@ -25,11 +35,17 @@ export default defineComponent({
             </div>
           </div>
           <ul class="userCard__operate">
-            <li class="userCard__operate-item userCard__operate-userCenter">
+            <li
+              onClick={() => router.push('/center')}
+              class="userCard__operate-item userCard__operate-userCenter"
+            >
               <Icon name="weibaoxitongshangchuanlogo-" />
               <span>个人中心</span>
             </li>
-            <li class="userCard__operate-item userCard__operate-logout">
+            <li
+              onClick={logout}
+              class="userCard__operate-item userCard__operate-logout"
+            >
               <Icon name="tuichu" />
               <span>退出账户</span>
             </li>

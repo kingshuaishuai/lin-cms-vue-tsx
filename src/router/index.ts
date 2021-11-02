@@ -1,3 +1,8 @@
+import { message } from 'ant-design-vue'
+import Config from '@/config'
+import { store } from '@/store'
+import { usePermissions } from '@/store/hooks'
+import { hasPermission } from '@/utils/utils'
 import {
   createRouter,
   createWebHistory,
@@ -12,6 +17,57 @@ const router = createRouter({
   // history: createWebHashHistory(base),
   routes,
   scrollBehavior: () => ({ top: 0, behavior: 'smooth' }),
+})
+
+let isLoginRequired = (routerName?: string | symbol | null): boolean => {
+  let { notLoginRoute = [] } = Config
+  const notLoginMark: { [key: string]: boolean } = {}
+
+  if (Array.isArray(notLoginRoute)) {
+    for (let i = 0; i < notLoginRoute.length; i++) {
+      notLoginMark[notLoginRoute[i].toString().toLowerCase()] = true
+    }
+  }
+
+  // 构建闭包
+  isLoginRequired = (name?: string | Symbol | null) => {
+    if (!name) return true
+
+    let targetName = typeof name === 'symbol' ? name.description : name
+    targetName = (targetName as string).toLowerCase()
+
+    return !notLoginMark[targetName]
+  }
+
+  return isLoginRequired(routerName)
+}
+
+const permissions = usePermissions()
+
+router.beforeEach((to, from, next) => {
+  if (isLoginRequired(to.name) && !store.state.user.loggedIn) {
+    next({ path: '/login' })
+    return
+  }
+  if (to.path === '/login' && store.state.user.loggedIn) {
+    next({ path: '/' })
+    return
+  }
+
+  if (
+    store.state.user.user &&
+    to.path !== '/about' &&
+    !hasPermission(permissions.value, to.meta, store.state.user.user)
+  ) {
+    message.error('您无此页面的权限哟~')
+    next({ path: '/about' })
+    return
+  }
+
+  if (to.meta.title) {
+    document.title = to.meta.title as string
+  }
+  next()
 })
 
 export default router

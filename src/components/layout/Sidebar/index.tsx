@@ -1,4 +1,4 @@
-import { defineComponent, onBeforeMount, ref } from 'vue'
+import { defineComponent, onBeforeMount, ref, watch } from 'vue'
 import { Menu } from 'ant-design-vue'
 import Logo, { logoProps } from './logo'
 import MenuTree from './MenuTree'
@@ -109,16 +109,26 @@ function useSidebarListAndSelectedKeys() {
     const matchedMenu = findMenuItemByPath(sidebarList.value, matchedPath)
     if (matchedMenu) {
       selectedKeys.value = [matchedMenu.title]
+    } else {
+      selectedKeys.value = []
     }
   }
 
-  onBeforeMount(() => {
-    const route = useRoute()
-    setSelectedKeysByPath(route)
-  })
-  onBeforeRouteUpdate((to) => {
-    setSelectedKeysByPath(to)
-  })
+  const route = useRoute()
+
+  watch(
+    route,
+    (to) => {
+      if (to.path === '/login') {
+        selectedKeys.value = []
+      } else {
+        setSelectedKeysByPath(to)
+      }
+    },
+    {
+      immediate: true,
+    },
+  )
   return {
     sidebarList,
     selectedKeys,
