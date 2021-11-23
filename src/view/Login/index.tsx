@@ -5,9 +5,9 @@ import { Spin } from 'ant-design-vue'
 import UserModel from '@/model/User'
 import { throttle } from 'lodash'
 import { Loading3QuartersOutlined } from '@ant-design/icons-vue'
-import { useStore } from '@/store'
-import { MUTATION_TYPES } from '@/store/mutationTypes'
 import { useRouter } from 'vue-router'
+import { useRouterStore } from '@/store/router'
+import { useUserStore } from '@/store/user'
 
 export default defineComponent({
   name: 'Login',
@@ -18,16 +18,17 @@ export default defineComponent({
       password: '',
     })
 
-    const store = useStore()
     const router = useRouter()
 
+    const routerStore = useRouterStore()
+    const userStore = useUserStore()
     const login = async (event: Event) => {
       event.preventDefault()
       loading.value = true
       try {
         await UserModel.getToken(account)
         await getUserInfo()
-        router.push(store.state.router.defaultRoute)
+        router.push(routerStore.defaultRoute)
       } catch (err) {
       } finally {
         loading.value = false
@@ -36,8 +37,8 @@ export default defineComponent({
 
     const getUserInfo = async () => {
       const user = await UserModel.getPermissions()
-      store.commit(MUTATION_TYPES.SET_USER, user)
-      store.commit(MUTATION_TYPES.SET_LOGGED_IN)
+      userStore.setUser(user)
+      userStore.setLoggedIn()
     }
 
     const throttleLogin = throttle(login, 1000)

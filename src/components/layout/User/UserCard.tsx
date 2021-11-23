@@ -5,17 +5,17 @@ import corner from '@/assets/image/user/corner.png'
 import './UserCard.less'
 import Icon from '@/components/base/Icon'
 import { useRouter } from 'vue-router'
-import { useStore } from '@/store'
-import { ACTION_TYPES } from '@/store/actionTypes'
+import { useUserStore } from '@/store/user'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   name: 'UserCard',
   setup() {
     const router = useRouter()
-    const store = useStore()
-    const user = store.state.user.user
+    const userStore = useUserStore()
+    const { user } = storeToRefs(userStore)
     const logout = () => {
-      store.dispatch(ACTION_TYPES.LOGOUT)
+      userStore.logout()
       window.location.reload()
       // router.push('/login')
     }
@@ -28,14 +28,14 @@ export default defineComponent({
             <div class="userInfo__avatar">
               <Avatar
                 class="userInfo__avatar-img"
-                src={user?.avatar || defaultAvatar}
+                src={user.value?.avatar || defaultAvatar}
                 shape="circle"
-                alt={user?.nickname}
+                alt={user.value?.nickname}
               />
             </div>
             <div class="userInfo__detail">
               <div class="userInfo__detail-username">
-                {user?.nickname || '佚名'}
+                {user.value?.nickname || '佚名'}
               </div>
             </div>
           </div>

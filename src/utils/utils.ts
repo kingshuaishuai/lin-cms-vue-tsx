@@ -1,4 +1,4 @@
-import { Permission, User } from '@/store/type'
+import { Permission, User } from '@/store/types'
 import { RouterRecordDesc } from './types'
 
 interface ObjWithOrder {

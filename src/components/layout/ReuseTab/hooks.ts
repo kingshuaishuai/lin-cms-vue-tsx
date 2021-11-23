@@ -1,7 +1,7 @@
 import { nextTick, onBeforeMount, reactive, Ref, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import './index.less'
-import { useNameToStageMap, usePathToStageMap } from '@/store/hooks'
+import { useNameToStageMap, usePathToStageMap } from '@/hooks/stage'
 import Config from '@/config'
 
 const histories = ref<

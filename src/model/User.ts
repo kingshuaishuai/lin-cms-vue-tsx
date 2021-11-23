@@ -1,4 +1,4 @@
-import { User } from '@/store/type'
+import { User } from '@/store/types'
 import { request } from '@/utils/request'
 import { saveTokens } from '@/utils/token'
 

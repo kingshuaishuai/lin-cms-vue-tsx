@@ -1,4 +1,4 @@
-import { useStageInfo } from '@/store/hooks'
+import { useStageInfo } from '@/hooks/stage'
 import { Breadcrumb } from 'ant-design-vue'
 import { defineComponent } from 'vue'
 import ClearTab from '../ClearTab'

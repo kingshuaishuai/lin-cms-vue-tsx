@@ -6,7 +6,7 @@ import { CloseOutlined } from '@ant-design/icons-vue'
 import './index.less'
 import BScroll from '@/components/base/BScroll'
 import { useMenuContext, useRouteHistories } from './hooks'
-import { useNameToStageMap } from '@/store/hooks'
+import { useNameToStageMap } from '@/hooks/stage'
 
 export default defineComponent({
   name: 'ReuseTab',

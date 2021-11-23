@@ -45,6 +45,29 @@
     overflow-y: auto;
     &__menu {
       border-right: none;
+      padding-top: 10px !important;
     }
+  }
+}
+
+.menu-search {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  &__placeholder {
+    position: relative;
+    width: 80%;
+    height: 32px;
+    border-bottom: 1px rgb(185, 190, 195) solid;
+    cursor: pointer;
+    .search-icon {
+      position: absolute;
+      left: 1px;
+      top: 10px;
+      color: rgb(185, 190, 195);
+    }
+  }
+  &__select {
+    width: 80%;
   }
 }

@@ -1,11 +1,10 @@
 import { MenuItem } from '@/components/layout/Sidebar/types'
 import { deepTravel } from '@/router/homeRoutes'
-import { Permission, User } from '@/store/type'
+import { Permission, User } from '@/store/types'
 import { RouterRecordDesc, ROUTER_TYPE } from '@/utils/types'
 import { hasPermission } from '@/utils/utils'
-import { Ref } from '@vue/reactivity'
 import { cloneDeep } from 'lodash'
-import { ref } from 'vue'
+import { ref, Ref } from 'vue'
 
 export interface StageCache {
   [key: string | symbol]: RouterRecordDesc
@@ -28,7 +27,7 @@ export const pathToStageMap: Ref<PathToStageMap> = ref({})
 export function getPermissionStageConfig(
   stageConfig: RouterRecordDesc[],
   permissions: Permission[],
-  user: User,
+  user: User | null,
 ) {
   const tempStageConfig = cloneDeep(stageConfig)
   const shookConfig = permissionShaking(tempStageConfig, permissions, user)
@@ -55,7 +54,7 @@ export function getPermissionStageConfig(
 function permissionShaking(
   stageConfig: RouterRecordDesc[],
   permissions: Permission[],
-  currentUser: User,
+  currentUser: User | null,
 ) {
   const shookConfig = stageConfig.filter((route) => {
     if (hasPermission(permissions, route, currentUser)) {

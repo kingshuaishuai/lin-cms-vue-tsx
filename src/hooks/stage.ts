@@ -1,29 +1,8 @@
-import { MenuItem } from '@/components/layout/Sidebar/types'
 import { RouterRecordDesc } from '@/utils/types'
 import { computed } from '@vue/reactivity'
 import { useRoute } from 'vue-router'
-import { store } from '.'
-import {
-  deepGetSidebar,
-  getPermissionStageConfig,
-  pathToStageMap,
-  nameToStageMap,
-} from './modules/router/utils'
-import { User } from './type'
+import { pathToStageMap, nameToStageMap } from '@/utils/stage'
 import stageConfig from '@/config/stage'
-
-export const useSidebarList = () => {
-  const sidebarList = computed(() => {
-    const { permissions, user } = store.state.user
-    const permissionState = getPermissionStageConfig(
-      stageConfig,
-      permissions,
-      user as User,
-    )
-    return deepGetSidebar(permissionState) as MenuItem[]
-  })
-  return sidebarList
-}
 
 export const useNameToStageMap = () => {
   return nameToStageMap

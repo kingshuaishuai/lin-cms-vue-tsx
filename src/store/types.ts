@@ -1,11 +1,9 @@
-import { RouterState } from './modules/router'
-import { UserState } from './modules/user'
+export interface RouterState {
+  sidebarLevel: number
+  defaultRoute: string
+}
 
 export type Permission = string
-
-export interface PlainObject {
-  [key: string]: any
-}
 
 export interface User {
   id: number
@@ -22,7 +20,8 @@ export interface User {
   }>
 }
 
-export interface RootState {
-  router: RouterState
-  user: UserState
+export interface UserState {
+  permissions: Permission[]
+  user: User | null
+  loggedIn: boolean
 }

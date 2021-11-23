@@ -29,6 +29,11 @@ export default defineComponent({
     })
     const main = ref<ComponentPublicInstance>()
     const sidebarStyle = useSidebarStyle(windowSize, windowHeight, isCollapsed)
+    const onSwitchPage = () => {
+      if (windowSize.value === WINDOW_SIZE.SMALL) {
+        toggleCollapse(true)
+      }
+    }
     return () => {
       return (
         <Layout>
@@ -38,7 +43,10 @@ export default defineComponent({
             collapsedWidth={64}
             style={sidebarStyle.value}
           >
-            <Sidebar isCollapsed={isCollapsed.value} />
+            <Sidebar
+              onSwitchPage={onSwitchPage}
+              isCollapsed={isCollapsed.value}
+            />
           </Layout.Sider>
           <Layout>
             <Layout.Header class="app-header">
