@@ -1,17 +1,24 @@
 import { Dropdown } from 'ant-design-vue'
 import Avatar from 'ant-design-vue/lib/avatar/Avatar'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import defaultAvatar from '@/assets/image/user/user.png'
 import UserCard from './UserCard'
 import './index.less'
+import { useUserStore } from '@/store/user'
 
 export default defineComponent({
   name: 'User',
   setup() {
+    const visible = ref(false)
+    const userStore = useUserStore()
     return () => {
       return (
         <div class="user">
-          <Dropdown overlay={() => <UserCard />} placement="bottomLeft">
+          <Dropdown
+            v-model={[visible.value, 'visible']}
+            overlay={<UserCard />}
+            placement="bottomLeft"
+          >
             <div class="user__avatar">
               <Avatar
                 size="large"
@@ -19,9 +26,7 @@ export default defineComponent({
                 style={{
                   cursor: 'pointer',
                 }}
-                src={
-                  'http://face.api.talelin.com/assets/2021/10/29/a72e8d7305154c6581ae541046dccdab.jpg'
-                }
+                src={userStore.user?.avatar || defaultAvatar}
               ></Avatar>
             </div>
           </Dropdown>

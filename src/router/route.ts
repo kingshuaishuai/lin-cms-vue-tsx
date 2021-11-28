@@ -10,6 +10,11 @@ const routes: RouteRecordRaw[] = [
     redirect: '/about',
     children: [...homeRoutes],
   },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/view/Login'),
+  },
 ]
 
 export default routes

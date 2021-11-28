@@ -13,9 +13,11 @@ const menuTreeProps = {
 const MenuTree = defineComponent({
   name: 'MenuTree',
   props: menuTreeProps,
-  setup(props) {
+  emits: ['switchPage'],
+  setup(props, { emit }) {
     const router = useRouter()
     const navigateTo = (path: string) => {
+      emit('switchPage')
       router.push({ path })
     }
     return () => {

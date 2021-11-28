@@ -19,9 +19,11 @@ module.exports = {
   },
   'plugins': [
     'vue',
-    '@typescript-eslint'
+    '@typescript-eslint',
+    'unused-imports'
   ],
   'rules': {
+    '@typescript-eslint/no-unused-vars': 'error',
     'indent': [
       'warn',
       2
@@ -39,6 +41,8 @@ module.exports = {
     'no-prototype-builtins': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/camelcase': 'off',
-    '@typescript-eslint/no-non-null-assertion': 'off'
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    "unused-imports/no-unused-imports": "warn",
+    'unused-imports/no-unused-vars': 'warn'
   }
 };

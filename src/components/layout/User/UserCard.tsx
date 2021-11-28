@@ -1,13 +1,25 @@
 import Avatar from 'ant-design-vue/lib/avatar/Avatar'
 import { defineComponent } from 'vue'
-import defaultAvatarUrl from '@/assets/image/user/user.png'
+import defaultAvatar from '@/assets/image/user/user.png'
 import corner from '@/assets/image/user/corner.png'
 import './UserCard.less'
 import Icon from '@/components/base/Icon'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/store/user'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   name: 'UserCard',
   setup() {
+    const router = useRouter()
+    const userStore = useUserStore()
+    const { user } = storeToRefs(userStore)
+    const logout = () => {
+      userStore.logout()
+      window.location.reload()
+      // router.push('/login')
+    }
+
     return () => {
       return (
         <div class="userCard">
@@ -16,20 +28,29 @@ export default defineComponent({
             <div class="userInfo__avatar">
               <Avatar
                 class="userInfo__avatar-img"
-                src={defaultAvatarUrl}
+                src={user.value?.avatar || defaultAvatar}
                 shape="circle"
+                alt={user.value?.nickname}
               />
             </div>
             <div class="userInfo__detail">
-              <div class="userInfo__detail-username">Root</div>
+              <div class="userInfo__detail-username">
+                {user.value?.nickname || '佚名'}
+              </div>
             </div>
           </div>
           <ul class="userCard__operate">
-            <li class="userCard__operate-item userCard__operate-userCenter">
+            <li
+              onClick={() => router.push('/center')}
+              class="userCard__operate-item userCard__operate-userCenter"
+            >
               <Icon name="weibaoxitongshangchuanlogo-" />
               <span>个人中心</span>
             </li>
-            <li class="userCard__operate-item userCard__operate-logout">
+            <li
+              onClick={logout}
+              class="userCard__operate-item userCard__operate-logout"
+            >
               <Icon name="tuichu" />
               <span>退出账户</span>
             </li>

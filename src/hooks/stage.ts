@@ -1,32 +1,10 @@
-import { MenuItem } from '@/components/layout/Sidebar/types'
 import { RouterRecordDesc } from '@/utils/types'
 import { computed } from '@vue/reactivity'
 import { useRoute } from 'vue-router'
-import { useStore } from '.'
-import {
-  deepGetSidebar,
-  getPermissionStageConfig,
-  pathToStageMap,
-  nameToStageMap,
-} from './modules/router/utils'
-import { User } from './type'
+import { pathToStageMap, nameToStageMap } from '@/utils/stage'
+import stageConfig from '@/config/stage'
 
-export const useSidebarList = () => {
-  const store = useStore()
-  const sidebarList = computed(() => {
-    const { stageConfig } = store.state.router
-    const { permissions, user } = store.state.user
-    const permissionState = getPermissionStageConfig(
-      stageConfig,
-      permissions,
-      user as User,
-    )
-    return deepGetSidebar(permissionState) as MenuItem[]
-  })
-  return sidebarList
-}
-
-export const useStageList = () => {
+export const useNameToStageMap = () => {
   return nameToStageMap
 }
 
@@ -40,19 +18,24 @@ const stageInfoCache: {
 
 export const useStageInfo = () => {
   const route = useRoute()
-  const store = useStore()
   const stageInfo = computed(() => {
     const name = route.name!
     if (stageInfoCache[name]) {
       return stageInfoCache[name]
     }
-    const result = getStagePathByName(store.state.router.stageConfig, name)
+    const result = getStagePathByName(stageConfig, name)
     stageInfoCache[name] = result
     return result
   })
   return stageInfo
 }
 
+/**
+ * 递归获取到当前stage链
+ * @param stages
+ * @param name
+ * @returns
+ */
 function getStagePathByName(
   stages: RouterRecordDesc[],
   name: string | symbol,
@@ -72,5 +55,3 @@ function getStagePathByName(
   }
   return []
 }
-
-// []

@@ -1,24 +1,19 @@
-import { InjectionKey } from '@vue/runtime-core'
-import { createStore, Store, useStore as useBaseStore } from 'vuex'
-import VuexPersistance from 'vuex-persist'
-import routerModule from './modules/router'
-import userModule from './modules/user'
-import { RootState } from './type'
+import { createPinia, PiniaPlugin } from 'pinia'
 
-const vuexLocal = new VuexPersistance<RootState>({
-  storage: window.localStorage,
-})
+export const pinia = createPinia()
 
-export const key: InjectionKey<Store<RootState>> = Symbol()
-
-export const store = createStore<RootState>({
-  plugins: [vuexLocal.plugin],
-  modules: {
-    router: routerModule,
-    user: userModule,
-  },
-})
-
-export function useStore() {
-  return useBaseStore(key)
+const storagePlugin: PiniaPlugin = (context) => {
+  const key = `pinia_${context.store.$id}`
+  const stateStr = localStorage.getItem(key)
+  if (stateStr) {
+    try {
+      const state = JSON.parse(stateStr)
+      context.store.$patch(state)
+    } catch (err) {}
+  }
+  context.store.$subscribe((mutation, state) => {
+    localStorage.setItem(key, JSON.stringify(state))
+  })
 }
+
+pinia.use(storagePlugin)

@@ -1,15 +1,14 @@
-import { defineComponent, onBeforeMount, ref } from 'vue'
+import { defineComponent, onBeforeMount, ref, watch } from 'vue'
 import { Menu } from 'ant-design-vue'
 import Logo, { logoProps } from './logo'
 import MenuTree from './MenuTree'
-import { useSidebarList } from '@/store/hooks'
-import {
-  onBeforeRouteUpdate,
-  RouteLocationNormalizedLoaded,
-  useRoute,
-} from 'vue-router'
+import { RouteLocationNormalizedLoaded, useRoute } from 'vue-router'
 import { MenuItem } from './types'
 import './index.less'
+import MenuSearch from './MenuSearch'
+import useWindowSize, { WINDOW_SIZE } from '@/hooks/useWindowSize'
+import { useUserStore } from '@/store/user'
+import { storeToRefs } from 'pinia'
 
 const sidebarProps = {
   ...logoProps,
@@ -18,9 +17,14 @@ const sidebarProps = {
 export default defineComponent({
   name: 'Sidebar',
   props: sidebarProps,
-  setup(props) {
+  emits: ['switchPage'],
+  setup(props, { emit }) {
     const openKeys = useOpenKeys()
     const { sidebarList, selectedKeys } = useSidebarListAndSelectedKeys()
+    const { windowSize } = useWindowSize()
+    const onSwitchPage = () => {
+      emit('switchPage')
+    }
 
     return () => {
       const { isCollapsed } = props
@@ -30,6 +34,9 @@ export default defineComponent({
             <Logo isCollapsed={isCollapsed}></Logo>
           </div>
           <div class="app-sidebar__main">
+            <MenuSearch
+              v-show={!isCollapsed && windowSize.value !== WINDOW_SIZE.SMALL}
+            />
             <Menu
               class="app-sidebar__main__menu"
               mode="inline"
@@ -39,7 +46,11 @@ export default defineComponent({
               ]}
             >
               {sidebarList.value.map((menuItem) => (
-                <MenuTree key={menuItem.name} menuItem={menuItem} />
+                <MenuTree
+                  onSwitchPage={onSwitchPage}
+                  key={menuItem.name}
+                  menuItem={menuItem}
+                />
               ))}
             </Menu>
           </div>
@@ -50,7 +61,7 @@ export default defineComponent({
 })
 
 function useOpenKeys() {
-  const openKeys = ref(getOpenKeysCache())
+  const openKeys = ref<string[]>(getOpenKeysCache())
   onBeforeMount(() => {
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('openKeys', JSON.stringify(openKeys.value))
@@ -101,7 +112,9 @@ function getOpenKeysCache(): string[] {
 }
 
 function useSidebarListAndSelectedKeys() {
-  const sidebarList = useSidebarList()
+  const userStore = useUserStore()
+  const { sidebarList } = storeToRefs(useUserStore())
+
   const selectedKeys = ref<string[]>([])
 
   const setSelectedKeysByPath = (route: RouteLocationNormalizedLoaded) => {
@@ -109,16 +122,22 @@ function useSidebarListAndSelectedKeys() {
     const matchedMenu = findMenuItemByPath(sidebarList.value, matchedPath)
     if (matchedMenu) {
       selectedKeys.value = [matchedMenu.title]
+    } else {
+      selectedKeys.value = []
     }
   }
 
-  onBeforeMount(() => {
-    const route = useRoute()
-    setSelectedKeysByPath(route)
-  })
-  onBeforeRouteUpdate((to) => {
-    setSelectedKeysByPath(to)
-  })
+  const route = useRoute()
+
+  watch(
+    route,
+    (to) => {
+      setSelectedKeysByPath(to)
+    },
+    {
+      immediate: true,
+    },
+  )
   return {
     sidebarList,
     selectedKeys,
