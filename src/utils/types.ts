@@ -8,6 +8,7 @@ export enum ROUTER_TYPE {
   FOLDER = 'FOLDER',
   TAB = 'TAB',
   VIEW = 'VIEW',
+  HIDE = 'HIDE',
 }
 
 export interface RouterRecordDesc {
@@ -21,4 +22,37 @@ export interface RouterRecordDesc {
   order?: number
   children?: RouterRecordDesc[]
   permission?: string[]
+}
+
+export interface PermissionGroupItem {
+  id: number
+  name: string
+  info: string
+}
+
+export type PermissionGroupList = PermissionGroupItem[]
+
+export interface CommonResponse {
+  code: number
+  message: string
+  request: string
+}
+
+export interface ModulePermissionItem {
+  id: number
+  name: string
+  module: string
+}
+
+export type ModulePermissions = Array<ModulePermissionItem>
+
+export interface AllPermissions {
+  [key: string]: ModulePermissions
+}
+
+export interface PermissionGroupInfo {
+  id: number
+  info: string
+  name: string
+  permissions: ModulePermissions
 }

@@ -1,0 +1,53 @@
+@import '@/assets/style/antd.lin.less';
+
+.group-list {
+  &__table {
+    .ant-table {
+      border: 1px solid #f0f0f0;
+    }
+  }
+  .group-list-ops-btn {
+    border-radius: 2px;
+    font-size: 12px;
+    &:not(:first-child) {
+      margin-left: 12px;
+    }
+  }
+}
+
+.table-striped {
+  background-color: #f8f9fa;
+}
+
+.permission-module {
+  user-select: none;
+  width: 83.33333%;
+  &__title {
+    line-height: 32px;
+    font-weight: bold;
+  }
+  &__list {
+    padding: 20px;
+    color: #2c3e50;
+    background-color: #f5f5f6;
+    margin-bottom: 20px;
+    .ant-checkbox-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      .ant-checkbox-group-item {
+        flex-shrink: 0;
+        min-width: 150px;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.group-create {
+  width: 83.33333%;
+  .permission-module {
+    width: 100%;
+  }
+}

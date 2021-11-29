@@ -5,7 +5,10 @@
 @sidebar-collapsed-width: 64px;
 @sidebar-logo-height: 86px;
 @reuse-tab-height: 40px;
+@reuse-tab-item-background: #FFFFFF;
 @gray-text-color: #666666;
+@app-main-background: #F9FAFB;
+@modal-header-background: #cedaf0;
 
 // ------- Colors --------
 @blue-base: #3963bc;
@@ -14,6 +17,7 @@
 @gold-base: #ffcb71;
 
 @header-background: #EEF4F9;
+@tips-color: #596c8e;
 
 // ------ Base Scaffolding Variables ------
 @body-background: #F6F7FA;
@@ -24,6 +28,7 @@
 @layout-header-background: @header-background;
 @layout-header-padding: 0;
 @layout-header-height: 86px;
+@layout-body-background: @app-main-background;
 .@{layout-prefix-cls} {
   height: 100%;
   &-content {
@@ -91,6 +96,68 @@
   &-container {
     &::after {
       background-color: transparent !important;
+    }
+  }
+}
+// Table 
+.ant-table-thead {
+  .ant-table-cell {
+    &::before {
+      display: none;
+    }
+  }
+}
+
+// Modal
+// --
+@modal-body-padding: 30px;
+@modal-header-bg: @modal-header-background;
+// @modal-header-border-color-split: @border-color-split;
+// @modal-content-bg: @component-background;
+// @modal-heading-color: @heading-color;
+// @modal-footer-bg: transparent;
+// @modal-footer-border-color-split: @border-color-split;
+// @modal-mask-bg: fade(@black, 45%);
+// @modal-close-color: @text-color-secondary;
+@modal-footer-padding-vertical: 20px;
+@modal-footer-padding-horizontal: 30px;
+.ant-modal-header {
+  padding-bottom: 10px;
+}
+.ant-modal-body {
+  padding-bottom: 0;
+  color: @tips-color;
+}
+.ant-modal-content {
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ant-modal-footer {
+  text-align: left;
+  padding-top: 10px;
+  border: none;
+}
+.ant-modal-confirm {
+  .ant-modal-content {
+    border-radius: 4px;
+  }
+  .ant-modal-body {
+    padding: 15px 15px 10px 15px;
+  }
+  .ant-modal-confirm-btns {
+    margin-top: 8px;
+  }
+}
+
+// checkbox
+.ant-checkbox-indeterminate {
+  .ant-checkbox-inner {
+    border: none;
+    background-color: @primary-color;
+    &::after {
+      width: 45%;
+      height: 2px;
+      background-color: #fff !important;
     }
   }
 }

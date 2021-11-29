@@ -3,6 +3,7 @@ import { useRoute, useRouter } from 'vue-router'
 import './index.less'
 import { useNameToStageMap, usePathToStageMap } from '@/hooks/stage'
 import Config from '@/config'
+import { ROUTER_TYPE } from '@/utils/types'
 
 const histories = ref<
   Array<{
@@ -55,7 +56,7 @@ export const useRouteHistories = () => {
       if (!to.name) return
       const findResult =
         nameToStageMap.value[to.name] || pathToStageMap.value[to.path]
-      if (!findResult) return
+      if (!findResult || findResult.type === ROUTER_TYPE.HIDE) return
 
       histories.value = [
         {
