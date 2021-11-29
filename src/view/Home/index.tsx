@@ -17,6 +17,7 @@ import Icon from '@/components/base/Icon'
 import Navbar from '@/components/layout/Navbar'
 import ReuseTab from '@/components/layout/ReuseTab'
 import AppMain from '@/components/layout/AppMain'
+import MenuTab from '@/components/layout/MenuTab'
 
 export default defineComponent({
   name: 'Home',
@@ -64,6 +65,7 @@ export default defineComponent({
               <ReuseTab />
             </Layout.Header>
             <Layout.Content ref={main}>
+              <MenuTab />
               <AppMain />
             </Layout.Content>
             <BackTop target={() => main.value?.$el} visibilityHeight={100} />

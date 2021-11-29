@@ -68,7 +68,7 @@ const adminRouter: RouterRecordDesc = {
         },
         {
           route: '/admin/group/edit',
-          type: ROUTER_TYPE.VIEW,
+          type: ROUTER_TYPE.HIDE,
           name: 'GroupEdit',
           component: () => import('@/view/Admin/Group/GroupEdit'),
           inNav: false,

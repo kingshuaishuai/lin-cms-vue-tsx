@@ -764,10 +764,10 @@ ansi-styles@^4.1.0:
   dependencies:
     color-convert "^2.0.1"
 
-ant-design-vue@^3.0.0-alpha.12:
-  version "3.0.0-alpha.12"
-  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-3.0.0-alpha.12.tgz#b38501b37f7893cd7c11ef67295916514ce4e652"
-  integrity sha512-kwmfnK2hC5NZW5QbkdJ7bzogXWlt9YvKTU3bw53OP4BBUep2OcSbxwR8txWLQ3A9HFeb4O1oeWkSh70LoDvpZg==
+ant-design-vue@^3.0.0-alpha.13:
+  version "3.0.0-alpha.13"
+  resolved "https://registry.yarnpkg.com/ant-design-vue/-/ant-design-vue-3.0.0-alpha.13.tgz#20641ff16928862b9c665238558bd6997e2db129"
+  integrity sha512-qILjbNRHXz3vJJZtG45RTQTiAL97XXnr6BwOfOvDiILK6UqsaLWCerRxcF8uUnqtcbj/zQSCU1Yb0OLb7a/sHA==
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons-vue" "^6.0.0"

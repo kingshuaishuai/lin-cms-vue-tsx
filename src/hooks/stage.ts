@@ -3,6 +3,7 @@ import { computed } from '@vue/reactivity'
 import { useRoute } from 'vue-router'
 import { pathToStageMap, nameToStageMap } from '@/utils/stage'
 import stageConfig from '@/config/stage'
+import { ref, watch } from 'vue'
 
 export const useNameToStageMap = () => {
   return nameToStageMap
@@ -18,15 +19,23 @@ const stageInfoCache: {
 
 export const useStageInfo = () => {
   const route = useRoute()
-  const stageInfo = computed(() => {
-    const name = route.name!
-    if (stageInfoCache[name]) {
-      return stageInfoCache[name]
-    }
-    const result = getStagePathByName(stageConfig, name)
-    stageInfoCache[name] = result
-    return result
-  })
+  const stageInfo = ref<RouterRecordDesc[]>([])
+  watch(
+    route,
+    () => {
+      let result: RouterRecordDesc[] = []
+      if (stageInfoCache[route.name!]) {
+        result = stageInfoCache[route.name!]
+      } else {
+        result = getStagePathByName(stageConfig, route.name!)
+        stageInfoCache[route.name!] = result
+      }
+      stageInfo.value = result
+    },
+    {
+      immediate: true,
+    },
+  )
   return stageInfo
 }
 
