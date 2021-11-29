@@ -58,6 +58,7 @@ export default defineComponent({
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 20 }}
                 labelAlign="right"
+                colon={false}
               >
                 <Form.Item label="分组名称" {...validateInfos['name']}>
                   <Input
@@ -75,53 +76,6 @@ export default defineComponent({
             </Spin>
           </Modal>
         </PageContainer>
-        // <div class="group-list">
-        //   <div class="group-list__title">分组列表信息</div>
-        //   <Table
-        //     loading={loading.value}
-        //     size="middle"
-        //     class="group-list__table"
-        //     dataSource={groupList.value}
-        //     columns={columns as ColumnsType}
-        //     rowClassName={(_record, index) =>
-        //       index % 2 === 1 ? 'table-striped' : ''
-        //     }
-        //   />
-        //   <Modal
-        //     v-model={[infoVisible.value, 'visible']}
-        //     title="分组信息"
-        //     confirmLoading={updating.value}
-        //     footer={() => (
-        //       <div>
-        //         <Button onClick={updateGroupInfo} type="primary">
-        //           确定
-        //         </Button>
-        //         <Button onClick={handleResetFields}>重置</Button>
-        //       </div>
-        //     )}
-        //   >
-        //     <Spin spinning={updating.value}>
-        //       <Form
-        //         labelCol={{ span: 4 }}
-        //         wrapperCol={{ span: 20 }}
-        //         labelAlign="right"
-        //       >
-        //         <Form.Item label="分组名称" {...validateInfos['name']}>
-        //           <Input
-        //             allowClear
-        //             v-model={[currentEditRecord.value.name, 'value']}
-        //           />
-        //         </Form.Item>
-        //         <Form.Item label="分组描述">
-        //           <Input
-        //             allowClear
-        //             v-model={[currentEditRecord.value.info, 'value']}
-        //           />
-        //         </Form.Item>
-        //       </Form>
-        //     </Spin>
-        //   </Modal>
-        // </div>
       )
     }
   },

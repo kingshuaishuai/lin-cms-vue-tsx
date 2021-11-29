@@ -63,4 +63,16 @@ export default class AdminModel {
       data,
     })
   }
+
+  static async createOneGroup(data: {
+    name: string
+    info: string
+    permission_ids: number[]
+  }) {
+    return request<CommonResponse>({
+      method: 'POST',
+      url: '/cms/admin/group',
+      data,
+    })
+  }
 }
