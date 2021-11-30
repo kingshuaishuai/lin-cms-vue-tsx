@@ -1,0 +1,27 @@
+@import '@/assets/style/antd.lin.less';
+.user-create {
+  &__form {
+    width: 83.3333%;
+    &-checkbox-group {
+      .ant-checkbox-group-item {
+        padding: 5px 10px 5px 15px;
+        border: 1px solid #dcdfe6;
+        border-radius: 2px;
+        color: #666;
+        margin-bottom: 10px;
+        &:not(:last-child) {
+          margin-right: 30px;
+        }
+        &:hover,
+        &:active,
+        &:focus {
+          border-color: @primary-color;
+        }
+        transition: all .3s;
+      }
+      .ant-checkbox-wrapper-checked {
+        border-color: @primary-color;
+      }
+    }
+  }
+}

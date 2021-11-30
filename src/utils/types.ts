@@ -56,3 +56,11 @@ export interface PermissionGroupInfo {
   name: string
   permissions: ModulePermissions
 }
+
+export interface CreateUserInfo {
+  username: string
+  email: string
+  password: string
+  confirm_password: string
+  group_ids: number[]
+}
