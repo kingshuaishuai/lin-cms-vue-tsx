@@ -64,3 +64,19 @@ export interface CreateUserInfo {
   confirm_password: string
   group_ids: number[]
 }
+
+export interface UserListItem {
+  avatar: string | null
+  email: string | null
+  groups: { id: number; name: string; info: string }[]
+  id: number
+  nickname: string | null
+  username: string
+}
+
+export interface TablePage<T> {
+  count: number
+  page: number
+  total: number
+  items: Array<T>
+}

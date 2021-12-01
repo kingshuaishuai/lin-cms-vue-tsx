@@ -1,10 +1,10 @@
-import axios from 'axios'
 import Axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { merge } from 'lodash'
 import { message as AntMessage } from 'ant-design-vue'
 import { getToken, saveTokens } from './token'
 import Config from '@/config'
 import ErrorCode from '@/config/errorCode'
+import { useUserStore } from '@/store/user'
 
 declare module 'axios' {
   interface AxiosRequestConfig<D = any> {
@@ -80,8 +80,16 @@ export const createAxiosInstance = (config: AxiosRequestConfig) => {
 
         // refresh token异常
         if (refreshTokenException(code)) {
-          // TODO:退出登录
-          return resolve(null)
+          const userStore = useUserStore()
+
+          if (!res.config.handleError) {
+            AntMessage.error(message || '令牌过期')
+          }
+          setTimeout(() => {
+            userStore.logout()
+            window.location.reload()
+          }, 1500)
+          return reject(res)
         }
 
         // 刷新Token
@@ -91,7 +99,8 @@ export const createAxiosInstance = (config: AxiosRequestConfig) => {
             refresh_token: string
           }>('/cms/user/refresh')
           saveTokens(tokens.data.access_token, tokens.data.refresh_token)
-          return axios.request(res.config)
+          const result = instance.request(res.config)
+          return resolve(result)
         }
 
         // 弹出信息提示的第一种情况：直接提示后端返回的异常信息（框架默认为此配置）；
@@ -125,7 +134,7 @@ export const createAxiosInstance = (config: AxiosRequestConfig) => {
           tipMessage = message[0]
         }
         AntMessage.error(tipMessage)
-        reject(res)
+        return reject(res)
       })
     },
     (error) => {

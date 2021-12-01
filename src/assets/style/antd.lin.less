@@ -17,7 +17,7 @@
 @gold-base: #ffcb71;
 
 @header-background: #EEF4F9;
-@text-gray-color: #596c8e;
+@lin-gray-color: #596c8e;
 
 // ------ Base Scaffolding Variables ------
 @body-background: #F6F7FA;
@@ -45,7 +45,8 @@
 // ----- text -----
 
 // ----- button -----
-@btn-default-color: @text-gray-color;
+@btn-default-color: @lin-gray-color;
+@btn-danger-border: @red-base;
 
 // ----- menu -----
 @menu-inline-toplevel-item-height: 50px;
@@ -129,14 +130,13 @@
 }
 .ant-modal-body {
   padding-bottom: 0;
-  color: @text-gray-color;
+  color: @lin-gray-color;
 }
 .ant-modal-content {
   border-radius: 12px;
   overflow: hidden;
 }
 .ant-modal-footer {
-  text-align: left;
   padding-top: 10px;
   border: none;
 }
@@ -149,6 +149,9 @@
   }
   .ant-modal-confirm-btns {
     margin-top: 8px;
+  }
+  .ant-modal-confirm-content {
+    color: @lin-gray-color;
   }
 }
 
@@ -163,4 +166,11 @@
       background-color: #fff !important;
     }
   }
+}
+
+// select
+@select-border-color: #dcdfe6;
+
+.ant-select-item-option-content {
+  color: @lin-gray-color;
 }

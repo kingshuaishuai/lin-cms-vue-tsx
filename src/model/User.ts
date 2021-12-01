@@ -19,14 +19,13 @@ export default class UserModel {
     return tokens
   }
 
-  static async getPermissions() {
-    const info = await request<User>({
+  static getPermissions() {
+    return request<User>({
       url: 'cms/user/permissions',
     })
-    return info
   }
 
-  static async register(data: CreateUserInfo) {
+  static register(data: CreateUserInfo) {
     return request<CommonResponse>({
       url: '/cms/user/register',
       method: 'POST',

@@ -1,7 +1,7 @@
 import PageContainer from '@/components/layout/PageContainer'
 import AdminModel from '@/model/Admin'
 import { AllPermissions, PermissionGroupInfo } from '@/utils/types'
-import { Button, message } from 'ant-design-vue'
+import { Button, message, Space } from 'ant-design-vue'
 import { defineComponent, onBeforeMount, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import GroupPermission from './GroupPermission'
@@ -27,26 +27,25 @@ export default defineComponent({
               marginTop: '30px',
             }}
           >
-            <Button
-              loading={loading.value}
-              onClick={handleUpdatePermissions}
-              type="primary"
-            >
-              确定
-            </Button>
-            <Button
-              style={{
-                marginLeft: '12px',
-              }}
-              onClick={() => {
-                router.push({
-                  path: '/admin/group/list',
-                })
-              }}
-              disabled={loading.value}
-            >
-              返回
-            </Button>
+            <Space>
+              <Button
+                loading={loading.value}
+                onClick={handleUpdatePermissions}
+                type="primary"
+              >
+                确定
+              </Button>
+              <Button
+                onClick={() => {
+                  router.push({
+                    path: '/admin/group/list',
+                  })
+                }}
+                disabled={loading.value}
+              >
+                返回
+              </Button>
+            </Space>
           </div>
         </PageContainer>
       )

@@ -1,6 +1,6 @@
 import PageContainer from '@/components/layout/PageContainer'
 import { defineComponent } from 'vue'
-import { Checkbox, Form, Input, Button, Spin } from 'ant-design-vue'
+import { Checkbox, Form, Input, Button, Spin, Space } from 'ant-design-vue'
 import { useCreateUserForm } from './hooks'
 import './index.less'
 
@@ -43,18 +43,18 @@ export default defineComponent({
             </Form.Item>
             <Form.Item label="选择分组">
               <Checkbox.Group
-                class="user-create__form-checkbox-group"
+                class="permission-group-checkbox-group"
                 v-model={[userInfo.value.group_ids, 'value']}
                 options={groupOptions.value || []}
               ></Checkbox.Group>
             </Form.Item>
             <Form.Item label=" ">
-              <Button onClick={handleCreateUser} type="primary">
-                保存
-              </Button>
-              <Button onClick={handleReset} style={{ marginLeft: '10px' }}>
-                重置
-              </Button>
+              <Space>
+                <Button onClick={handleCreateUser} type="primary">
+                  保存
+                </Button>
+                <Button onClick={handleReset}>重置</Button>
+              </Space>
             </Form.Item>
           </Form>
         </Spin>

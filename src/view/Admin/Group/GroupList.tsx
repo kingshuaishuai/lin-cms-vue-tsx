@@ -1,4 +1,5 @@
 import PageContainer from '@/components/layout/PageContainer'
+import { tableStriped } from '@/utils/utils'
 import { Button, Table, Modal, Form, Input, Spin } from 'ant-design-vue'
 import { ColumnsType } from 'ant-design-vue/lib/table'
 import { defineComponent } from 'vue'
@@ -33,12 +34,10 @@ export default defineComponent({
           <Table
             loading={loading.value}
             size="middle"
-            class="group-list__table"
+            class="group-list__table bordered-ant-table"
             dataSource={groupList.value}
             columns={columns as ColumnsType}
-            rowClassName={(_record, index) =>
-              index % 2 === 1 ? 'table-striped' : ''
-            }
+            rowClassName={tableStriped}
           />
           <Modal
             v-model={[infoVisible.value, 'visible']}

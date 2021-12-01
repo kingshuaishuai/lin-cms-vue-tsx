@@ -90,3 +90,7 @@ export const hasPermission = (
   }
   return true
 }
+
+export const tableStriped = (_: any, index: number) => {
+  return index % 2 === 1 ? 'table-striped' : ''
+}
