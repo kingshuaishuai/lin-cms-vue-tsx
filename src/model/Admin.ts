@@ -5,16 +5,64 @@ import type {
   PermissionGroupInfo,
   PermissionGroupItem,
   PermissionGroupList,
+  TablePage,
+  UserListItem,
 } from '@/utils/types'
 
 export default class AdminModel {
-  static async getAllGroups() {
+  static getUsers(params: {
+    count?: number
+    page?: number
+    group_id?: number
+  }) {
+    return request<TablePage<UserListItem>>({
+      url: '/cms/admin/users',
+      params,
+    })
+  }
+
+  static changePassword(
+    id: number,
+    data: {
+      new_password: string
+      confirm_password: string
+    },
+  ) {
+    return request<CommonResponse>({
+      url: `cms/admin/user/${id}/password`,
+      method: 'PUT',
+      data,
+    })
+  }
+
+  static updateOneUser(
+    id: number,
+    data: {
+      email: string
+      group_ids: number[]
+    },
+  ) {
+    return request<CommonResponse>({
+      url: `cms/admin/user/${id}`,
+      method: 'PUT',
+      data,
+    })
+  }
+
+  static deleteOneUser(id: number) {
+    return request({
+      method: 'DELETE',
+      url: `/cms/admin/user/${id}`,
+    })
+  }
+
+  static getAllGroups() {
     return request<PermissionGroupList>({
       url: '/cms/admin/group/all',
     })
   }
 
-  static async updateOneGroup(group: PermissionGroupItem) {
+  static updateOneGroup(group: PermissionGroupItem) {
     const { id, ...data } = group
     return request<CommonResponse>({
       url: `/cms/admin/group/${id}`,
@@ -23,26 +71,26 @@ export default class AdminModel {
     })
   }
 
-  static async deleteOneGroup(id: number) {
-    return await request<CommonResponse>({
+  static deleteOneGroup(id: number) {
+    return request<CommonResponse>({
       method: 'DELETE',
       url: `/cms/admin/group/${id}`,
     })
   }
 
-  static async getAllPermissions() {
+  static getAllPermissions() {
     return request<AllPermissions>({
       url: '/cms/admin/permission',
     })
   }
 
-  static async getOneGroup(id: number | string) {
+  static getOneGroup(id: number | string) {
     return request<PermissionGroupInfo>({
       url: `cms/admin/group/${id}`,
     })
   }
 
-  static async dispatchPermissions(data: {
+  static dispatchPermissions(data: {
     group_id: number
     permission_ids: number[]
   }) {
@@ -53,7 +101,7 @@ export default class AdminModel {
     })
   }
 
-  static async removePermissions(data: {
+  static removePermissions(data: {
     group_id: number
     permission_ids: number[]
   }) {
@@ -64,7 +112,7 @@ export default class AdminModel {
     })
   }
 
-  static async createOneGroup(data: {
+  static createOneGroup(data: {
     name: string
     info: string
     permission_ids: number[]

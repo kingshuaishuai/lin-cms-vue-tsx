@@ -1,6 +1,7 @@
 import { User } from '@/store/types'
 import { request } from '@/utils/request'
 import { saveTokens } from '@/utils/token'
+import { CommonResponse, CreateUserInfo } from '@/utils/types'
 
 export interface GetTokenResult {
   access_token: string
@@ -18,10 +19,17 @@ export default class UserModel {
     return tokens
   }
 
-  static async getPermissions() {
-    const info = await request<User>({
+  static getPermissions() {
+    return request<User>({
       url: 'cms/user/permissions',
     })
-    return info
+  }
+
+  static register(data: CreateUserInfo) {
+    return request<CommonResponse>({
+      url: '/cms/user/register',
+      method: 'POST',
+      data,
+    })
   }
 }
