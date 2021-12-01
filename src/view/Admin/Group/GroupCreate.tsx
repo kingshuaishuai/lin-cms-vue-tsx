@@ -1,12 +1,9 @@
 import PageContainer from '@/components/layout/PageContainer'
-import AdminModel from '@/model/Admin'
-import { AllPermissions } from '@/utils/types'
-import { Form, Input, Button, message, Spin } from 'ant-design-vue'
-import { useForm } from 'ant-design-vue/lib/form'
-import { ValidationRule } from 'ant-design-vue/lib/form/Form'
-import { defineComponent, onBeforeMount, reactive, ref } from 'vue'
+import { Form, Input, Button, Spin } from 'ant-design-vue'
+import { defineComponent } from 'vue'
 import GroupPermission from './GroupPermission'
 import { useCreateGroup } from './hooks'
+import './index.less'
 
 export default defineComponent({
   name: 'GroupCreate',
