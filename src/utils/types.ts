@@ -56,3 +56,27 @@ export interface PermissionGroupInfo {
   name: string
   permissions: ModulePermissions
 }
+
+export interface CreateUserInfo {
+  username: string
+  email: string
+  password: string
+  confirm_password: string
+  group_ids: number[]
+}
+
+export interface UserListItem {
+  avatar: string | null
+  email: string | null
+  groups: { id: number; name: string; info: string }[]
+  id: number
+  nickname: string | null
+  username: string
+}
+
+export interface TablePage<T> {
+  count: number
+  page: number
+  total: number
+  items: Array<T>
+}
